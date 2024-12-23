@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account List</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Account List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Account Number</th>
+                <th>Account Type</th>
+                <th>Customer</th>
+                <th>Balance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ account.account_number }}</td>
+                <td>{{ account.account_type }}</td>
+                <td>{{ account.customer.name }}</td>
+                <td>{{ account.balance }}</td>
+                <td>
+                    <a href="{% url 'bank:edit_account' account.id %}">Edit</a> |
+                    <a href="{% url 'bank:delete_account' account.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'bank:add_account' %}">Add New Account</a>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Form</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>{% if account.id %}Edit Account{% else %}Add Account{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="account_number">Account Number:</label>
+        <input type="text" id="account_number" name="account_number" value="{{ account.account_number }}" required>
+        <br>
+        <label for="account_type">Account Type:</label>
+        <select id="account_type" name="account_type" required>
+            <option value="savings" {% if account.account_type == "savings" %}selected{% endif %}>Savings</option>
+            <option value="checking" {% if account.account_type == "checking" %}selected{% endif %}>Checking</option>
+        </select>
+        <br>
+        <label for="customer">Customer:</label>
+        <select id="customer" name="customer" required>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}" {% if account.customer and account.customer.id == customer.id %}selected{% endif %}>
+                {{ customer.name }}
+            </option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="balance">Balance:</label>
+        <input type="number" id="balance" name="balance" value="{{ account.balance }}" required>
+        <br>
+        <button type="submit">{% if account.id %}Update{% else %}Add{% endif %}</button>
+    </form>
+    <a href="{% url 'bank:account_list' %}">Back to Account List</a>
+</body>
+</html>

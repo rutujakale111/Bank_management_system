@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction List</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Transaction List</h1>
+    <a href="{% url 'bank:transaction_form' %}">Make a Transaction</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.account.account_number }}</td>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.date }}</td>
+                <td>
+                    <a href="{% url 'bank:transaction_form' transaction.id %}">Edit</a> | 
+                    <a href="{% url 'bank:delete_transaction' transaction.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
